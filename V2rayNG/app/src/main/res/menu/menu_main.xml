@@ -7,6 +7,10 @@
         app:showAsAction="always">
         <menu>
             <item
+                android:id="@+id/system_login"
+                android:title="@string/menu_item_login"
+                app:showAsAction="never" />
+            <item
                 android:id="@+id/import_qrcode"
                 android:title="@string/menu_item_import_config_qrcode"
                 app:showAsAction="never" />

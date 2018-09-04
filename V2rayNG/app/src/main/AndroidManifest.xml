@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.v2ray.ang">
+    package="com.v2ray.loli">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -52,7 +52,6 @@
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.PerAppProxyActivity" />
         <activity android:name=".ui.ScannerActivity" />
-        <activity android:name=".InappBuyActivity" />
         <activity android:name=".ui.LogcatActivity" />
         <activity
             android:name=".ui.RoutingSettingsActivity"
@@ -93,6 +92,14 @@
 
         <!-- <receiver android:name=".receiver.NetWorkStateReceiver" /> -->
 
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/menu_item_import_config_login">
+            <intent-filter>
+                <action android:name="com.v2ray.loli.intent.action.Login" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <!-- =====================Tasker===================== -->
         <activity

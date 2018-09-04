@@ -1,21 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion Integer.parseInt("$compileSdkVer")
-    buildToolsVersion "$buildToolsVer"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "com.v2ray.ang"
+        applicationId "com.v2ray.loli"
         minSdkVersion 17
         targetSdkVersion Integer.parseInt("$targetSdkVer")
         versionCode 105
         versionName "0.5.3"
     }
 
-    signingConfigs {
+/*    signingConfigs {
         release {
             storeFile file("../key.jks")
             keyAlias 'ang'
@@ -28,21 +27,21 @@ android {
             keyPassword '123456'
             storePassword '123456'
         }
-    }
+    }*/
 
     buildTypes {
         release {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
         }
     }
 

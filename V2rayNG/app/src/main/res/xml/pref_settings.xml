@@ -53,11 +53,6 @@
             android:summary="@string/summary_pref_routing"
             android:title="@string/summary_pref_routing" />
 
-        <Preference
-            android:key="pref_donate"
-            android:summary="@string/summary_pref_donate"
-            android:title="@string/title_pref_donate" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_about">
@@ -65,10 +60,6 @@
         <!--android:key="pref_licenses"-->
         <!--android:title="@string/notices_title" />-->
 
-        <Preference
-            android:key="pref_feedback"
-            android:summary="@string/summary_pref_feedback"
-            android:title="@string/title_pref_feedback" />
 
         <Preference
             android:key="pref_tg_group"

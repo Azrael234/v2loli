@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">v2rayNG</string>
+    <string name="app_name">V2Loli</string>
+    <string name="menu_item_login">登入帳號</string>
     <string name="app_widget_name">切換</string>
     <string name="app_tile_name">切換</string>
     <string name="app_tile_first_use">首次使用此功能，請使用此應用程式來啟用 VPN</string>
@@ -143,5 +144,20 @@
         <item>略過中國大陸</item>
         <item>Geo 家族</item>
     </string-array>
+
+    <string name="menu_item_import_config_login">登入</string>
+
+    <string name="title_activity_login">登入</string>
+    <string name="prompt_email">郵箱</string>
+    <string name="prompt_password">密碼</string>
+    <string name="action_sign_in">登入</string>
+    <string name="action_sign_in_short">登入</string>
+    <string name="error_invalid_email">郵箱地址非法</string>
+    <string name="error_invalid_password">密碼過短</string>
+    <string name="error_incorrect_password">密碼錯誤</string>
+    <string name="error_field_required">此項目必填</string>
+
+    <string name="choose_package">選擇套餐</string>
+    <string name="choose_package_submit">確定</string>
 
 </resources>

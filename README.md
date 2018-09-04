@@ -1,16 +1,17 @@
 # v2rayNG
 
-<a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">
-<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="165" height="64" />
-</a>
+## Usage
+* 1.Import the project to AndroidStudio
+* 2.Change the Site Info in app/src/main/java/com/v2ray/loli/constant/HttpConfig.java
+* 3.Change the TG Group in app/src/main/kotlin/com/v2ray/loli/AppConfig.kt 
+* 4.Build and Run
+* 5.Enjoy~
+
+V2rayNG
+https://github.com/2dust/v2rayNG
 
 Project V core
 https://github.com/v2ray/v2ray-core/releases
 
 User manual
 https://www.v2ray.com/
-
-### Donate
-If you like v2rayNG and want to support the developer  
-BTC: [1K69UnL44D5psuSgwrzFQCdjnRbvd5taE3](https://blockchain.info/address/1K69UnL44D5psuSgwrzFQCdjnRbvd5taE3 "1K69UnL44D5psuSgwrzFQCdjnRbvd5taE3")  
-Paypal: [paypal.me/CaptainIronNG](https://www.paypal.me/CaptainIronNG/18 "paypal.me/CaptainIronNG")  

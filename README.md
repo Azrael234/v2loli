@@ -1,4 +1,4 @@
-# v2rayNG
+# V2Loli
 
 ## Usage
 * 1.Import the project to AndroidStudio

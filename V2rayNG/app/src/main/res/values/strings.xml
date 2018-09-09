@@ -161,6 +161,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="error_invalid_network">Network Error</string>
 
     <string name="choose_package">choose package</string>
     <string name="choose_package_submit">Submit</string>

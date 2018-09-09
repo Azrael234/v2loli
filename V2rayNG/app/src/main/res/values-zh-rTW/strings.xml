@@ -156,6 +156,7 @@
     <string name="error_invalid_password">密碼過短</string>
     <string name="error_incorrect_password">密碼錯誤</string>
     <string name="error_field_required">此項目必填</string>
+    <string name="error_invalid_network">網絡異常</string>
 
     <string name="choose_package">選擇套餐</string>
     <string name="choose_package_submit">確定</string>

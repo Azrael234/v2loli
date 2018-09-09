@@ -354,14 +354,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String response = NetUtils.get(HttpConfig.URL_PATH + "?data=" + encode);
 
             Log.d("LoginActivity", "response is " + response);
-            String licenseDecode = LicenseUtils.licenseDecode(response, HttpConfig.KEY);
-            String decode = Authcode.Decode(licenseDecode, HttpConfig.UCKEY);
-            Log.d("LoginActivity", "decode is " + decode);
-            JsonObject json = (JsonObject) new JsonParser().parse(decode);
-            String result = json.get("result").getAsString();
-            Log.d("LoginActivity", "result is " + result);
 
-            return json;
+            if (response != null) {
+                String licenseDecode = LicenseUtils.licenseDecode(response, HttpConfig.KEY);
+                String decode = Authcode.Decode(licenseDecode, HttpConfig.UCKEY);
+                Log.d("LoginActivity", "decode is " + decode);
+                JsonObject json = (JsonObject) new JsonParser().parse(decode);
+                String result = json.get("result").getAsString();
+                Log.d("LoginActivity", "result is " + result);
+                return json;
+            } else {
+                JsonObject json = new JsonObject();
+                json.addProperty("result", "failure");
+                return json;
+            }
         }
 
         @Override
@@ -380,6 +386,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 intent.putExtra("json", json.toString());
                 setResult(RESULT_OK, intent);
                 finish();
+            } else if ("failure".equals(result)) {
+                mPasswordView.setError(getString(R.string.error_invalid_network));
+                mPasswordView.requestFocus();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

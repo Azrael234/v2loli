@@ -158,13 +158,13 @@ class MainActivity : BaseActivity() {
                 }
             REQUEST_LOGIN ->
                 if (resultCode == RESULT_OK) {
-                    importConfigFromJson(data?.getStringExtra("json") as String)
+                    importConfigFromJson(data?.getStringExtra("json"))
                 }
 
         }
     }
 
-    private fun importConfigFromJson(json: String) {
+    private fun importConfigFromJson(json: String?) {
         Log.d("MainActivity", json)
         val jsonObject = JsonParser().parse(json) as JsonObject
         val packages = jsonObject.get("package").asJsonArray
@@ -196,6 +196,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun processNodes(json: JsonObject, id: String) {
+        AngConfigManager.removeServerWithSubid()
         val uuid = json.get("uuid").asString
         val nodes = json.get("nodes").asJsonArray
         for (node in nodes) {

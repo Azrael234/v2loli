@@ -659,6 +659,21 @@ object AngConfigManager {
         return 0
     }
 
+    fun removeServerWithSubid(): Int {
+        if (configs.vmess.count() <= 0) {
+            return -1
+        }
+
+        for (k in configs.vmess.count() - 1 downTo 0) {
+            if (configs.vmess[k].subid != "") {
+                angConfig.vmess.removeAt(k)
+            }
+        }
+
+        storeConfigFile()
+        return 0
+    }
+
     fun removeServerViaSubid(subid: String): Int {
         if (TextUtils.isEmpty(subid) || configs.vmess.count() <= 0) {
             return -1

@@ -10,11 +10,15 @@ import android.view.Menu
 import android.view.MenuItem
 import com.tbruyelle.rxpermissions.RxPermissions
 import com.v2ray.loli.R
+import com.v2ray.loli.util.AngConfigManager
+import com.v2ray.loli.util.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.KeyEvent
 import com.v2ray.loli.AppConfig
+import com.v2ray.loli.util.MessageUtil
+import com.v2ray.loli.util.V2rayConfigUtil
 import org.jetbrains.anko.*
 import java.lang.ref.SoftReference
 import java.net.URL
@@ -30,7 +34,7 @@ import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 import com.v2ray.loli.helper.SimpleItemTouchHelperCallback
 import com.v2ray.loli.util.*
-
+import kotlinx.android.synthetic.main.activity_server3.*
 
 class MainActivity : BaseActivity() {
     companion object {
@@ -70,6 +74,19 @@ class MainActivity : BaseActivity() {
                 } else {
                     startActivityForResult(intent, REQUEST_CODE_VPN_PREPARE)
                 }
+            }
+        }
+        layout_test.setOnClickListener {
+            if (isRunning) {
+                tv_test_state.text = getString(R.string.connection_test_testing)
+                doAsync {
+                    val result = Utils.testConnection(this@MainActivity)
+                    uiThread {
+                        tv_test_state.text = Utils.getEditable(result)
+                    }
+                }
+            } else {
+                tv_test_state.text = getString(R.string.connection_test_fail)
             }
         }
 
@@ -141,41 +158,44 @@ class MainActivity : BaseActivity() {
                 }
             REQUEST_LOGIN ->
                 if (resultCode == RESULT_OK) {
-                    Log.d("MainActivity", data?.getStringExtra("json"))
-                    val json = data?.getStringExtra("json")
-                    val jsonObject = JsonParser().parse(json) as JsonObject
-                    val packages = jsonObject.get("package").asJsonArray
-                    val items : Array<String> = Array(packages.size(), {""})
-                    val nodeItems : Array<JsonArray> = Array(packages.size(), { JsonArray() })
-                    var i = 0
-                    while (i < packages.size()) {
-                        val j = packages.get(i) as JsonObject
-                        items[i] = j.get("package").asString
-                        i++
-                    }
-
-                    var selectPosition = 0
-                    val list = ListView(this)
-                    list.divider = null
-                    val customListAdapter = CustomListAdapter(this, items)
-                    list.setOnItemClickListener { _, _, position, _ ->
-                        customListAdapter.setSelect(position)
-                        selectPosition = position
-                        customListAdapter.notifyDataSetChanged()
-                    }
-                    list.adapter = customListAdapter
-                    val dialog = AlertDialog.Builder(this)
-                            .setView(list)
-                            .setTitle(R.string.choose_package)
-                            .setPositiveButton(R.string.choose_package_submit,
-                                    { _, _ ->processNodes(packages.get(selectPosition).asJsonObject, selectPosition.toString()) })
-                            .create()
-                    dialog.show()
+                    importConfigFromJson(data?.getStringExtra("json") as String)
                 }
+
         }
     }
 
-    fun processNodes(json: JsonObject, id: String) {
+    private fun importConfigFromJson(json: String) {
+        Log.d("MainActivity", json)
+        val jsonObject = JsonParser().parse(json) as JsonObject
+        val packages = jsonObject.get("package").asJsonArray
+        val items : Array<String> = Array(packages.size()) {""}
+        var i = 0
+        while (i < packages.size()) {
+            val j = packages.get(i) as JsonObject
+            items[i] = j.get("package").asString
+            i++
+        }
+
+        var selectPosition = 0
+        val list = ListView(this)
+        list.divider = null
+        val customListAdapter = CustomListAdapter(this, items)
+        list.setOnItemClickListener { _, _, position, _ ->
+            customListAdapter.setSelect(position)
+            selectPosition = position
+            customListAdapter.notifyDataSetChanged()
+        }
+        list.adapter = customListAdapter
+        val dialog = AlertDialog.Builder(this)
+                .setView(list)
+                .setTitle(R.string.choose_package)
+                .setPositiveButton(R.string.choose_package_submit
+                ) { _, _ ->processNodes(packages.get(selectPosition).asJsonObject, selectPosition.toString()) }
+                .create()
+        dialog.show()
+    }
+
+    private fun processNodes(json: JsonObject, id: String) {
         val uuid = json.get("uuid").asString
         val nodes = json.get("nodes").asJsonArray
         for (node in nodes) {

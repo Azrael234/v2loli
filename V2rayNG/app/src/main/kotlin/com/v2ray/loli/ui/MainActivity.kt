@@ -334,8 +334,8 @@ class MainActivity : BaseActivity() {
     fun importBatchConfig(server: String?, subid: String = "") {
         val count = AngConfigManager.importBatchConfig(server, subid)
         if (count > 0) {
-            toast(R.string.toast_success)
             adapter.updateConfigList()
+            toast(R.string.toast_success)
         } else {
             toast(R.string.toast_failure)
         }

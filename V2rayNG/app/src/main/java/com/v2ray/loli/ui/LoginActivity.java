@@ -337,37 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected JsonObject doInBackground(Void... params) {
 
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("email", mEmail);
-                jsonObject.put("password", mPassword);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.d(TAG, "Email is " + mEmail + " mPassword is " + mPassword + " " + jsonObject.toString());
-
-            String encode = Authcode.Encode(jsonObject.toString(), HttpConfig.UCKEY);
-
-            Log.d("LoginActivity", "encode is " + encode);
-
-            String response = NetUtils.get(HttpConfig.URL_PATH + "?data=" + encode);
-
-            Log.d("LoginActivity", "response is " + response);
-
-            if (response != null) {
-                String licenseDecode = LicenseUtils.licenseDecode(response, HttpConfig.KEY);
-                String decode = Authcode.Decode(licenseDecode, HttpConfig.UCKEY);
-                Log.d("LoginActivity", "decode is " + decode);
-                JsonObject json = (JsonObject) new JsonParser().parse(decode);
-                String result = json.get("result").getAsString();
-                Log.d("LoginActivity", "result is " + result);
-                return json;
-            } else {
-                JsonObject json = new JsonObject();
-                json.addProperty("result", "failure");
-                return json;
-            }
+            return NetUtils.getConfigJsonFromServer(mEmail, mPassword);
         }
 
         @Override

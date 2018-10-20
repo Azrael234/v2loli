@@ -97,6 +97,24 @@ class MainActivity : BaseActivity() {
         val callback = SimpleItemTouchHelperCallback(adapter)
         mItemTouchHelper = ItemTouchHelper(callback)
         mItemTouchHelper?.attachToRecyclerView(recycler_view)
+        updateSubscription()
+    }
+
+    private fun updateSubscription() {
+        doAsync {
+            val sharedPreferences = getSharedPreferences("UserInfo", Context.MODE_PRIVATE)
+            val email = sharedPreferences.getString("email", "")
+            val password = sharedPreferences.getString("password", "")
+            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+                val jsonObject = NetUtils.getConfigJsonFromServer(email, password)
+                val result = jsonObject.get("result").asString
+                if ("success" == result) {
+                    uiThread {
+                        importConfigFromJson(jsonObject.toString())
+                    }
+                }
+            }
+        }
     }
 
     fun startV2Ray() {

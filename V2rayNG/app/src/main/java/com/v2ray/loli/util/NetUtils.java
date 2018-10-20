@@ -1,6 +1,15 @@
 package com.v2ray.loli.util;
 
 import android.accounts.NetworkErrorException;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.v2ray.loli.constant.HttpConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +19,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class NetUtils {
+    private static final String TAG = NetUtils.class.getSimpleName();
+
     public static String post(String url, String content) {
         HttpURLConnection conn = null;
         try {
@@ -98,5 +109,40 @@ public class NetUtils {
         String state = os.toString();// 把流中的数据转换成字符串,采用的编码是utf-8(模拟器默认编码)
         os.close();
         return state;
+    }
+
+    @NonNull
+    public static JsonObject getConfigJsonFromServer(String email, String password) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email", email);
+            jsonObject.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, "Email is " + email + " mPassword is " + password + " " + jsonObject.toString());
+
+        String encode = Authcode.Encode(jsonObject.toString(), HttpConfig.UCKEY);
+
+        Log.d(TAG, "encode is " + encode);
+
+        String response = get(HttpConfig.URL_PATH + "?data=" + encode);
+
+        Log.d(TAG, "response is " + response);
+
+        if (response != null) {
+            String licenseDecode = LicenseUtils.licenseDecode(response, HttpConfig.KEY);
+            String decode = Authcode.Decode(licenseDecode, HttpConfig.UCKEY);
+            Log.d(TAG, "decode is " + decode);
+            JsonObject json = (JsonObject) new JsonParser().parse(decode);
+            String result = json.get("result").getAsString();
+            Log.d(TAG, "result is " + result);
+            return json;
+        } else {
+            JsonObject json = new JsonObject();
+            json.addProperty("result", "failure");
+            return json;
+        }
     }
 }
